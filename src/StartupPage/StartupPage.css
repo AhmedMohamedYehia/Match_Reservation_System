@@ -1,0 +1,32 @@
+
+#start-whole-back{
+    height: 100vh; 
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#start-navbar{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: 80px;
+    background-color: black;
+    opacity: 0.7;
+}
+
+#start-navbar-logo{
+    height: 67px;
+    width: 200px;
+    opacity: 1;
+}
+
+#start-body{
+    color: white;
+    border-radius: 50px;
+    width: 70vh;
+    height: 60vh;
+    background-color: black;
+    opacity: 0.7;
+}
