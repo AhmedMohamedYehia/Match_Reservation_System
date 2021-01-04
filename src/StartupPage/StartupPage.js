@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import image from "./stad.jpg"
 import "./StartupPage.css"
+import { Link } from "react-router-dom";
 
 import logo from "../Assets/HighGreenLogo.png"
 function StartupPage () {
@@ -11,20 +12,20 @@ function StartupPage () {
                 <span  className="col-5 mt-1">
                     <img id="start-navbar-logo" src={logo}/>
                 </span>
-                <span className="col-5"></span>
+                {/* <span className="col-5"></span>
                 <span className="col-1 mt-3" >
-                    <button type="button" class="btn btn-outline-success btn-lg">Login</button>
+                    <Link to="/log-in" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Login</button></Link>
                 </span>
                 <span className="col-1 mt-3">
-                    <button type="button" class="btn btn-outline-success btn-lg">Signup</button>
-                </span>
+                    <Link to="/sign-up" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Signup</button></Link>
+                </span> */}
             </div>
             <div id="start-container" className="container">
                 <div  className="row justify-content-center mt-5" >
                     <div id="start-body" className="row justify-content-center mt-5">
                         <span className="col-10 align-self-center container">
                             <div className="row justify-content-center">
-                                <button type="button" class="btn btn-outline-success btn-lg">Signup</button>
+                                <Link to="/sign-up" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Signup</button></Link>
                             </div>
                             <br></br>
                             <br></br>
@@ -33,7 +34,7 @@ function StartupPage () {
                             </div>
                             <br></br>
                             <div  className="row justify-content-center">
-                                <button type="button" class="btn btn-outline-success btn-lg">Login</button>
+                                <Link to="/log-in" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Login</button></Link>
                             </div>
                             <br></br>
                             <br></br>
@@ -42,7 +43,7 @@ function StartupPage () {
                             </div>
                             <br></br>
                             <div className="row justify-content-center">
-                                <button type="button" class="btn btn-outline-success btn-lg">Guest</button>
+                                <Link to="/home"  className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Guest</button></Link>
                             </div>
                         </span>
                     </div>

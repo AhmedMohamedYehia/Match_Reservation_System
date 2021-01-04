@@ -109,7 +109,7 @@ render() {
                           <button type="submit" className="btn btn-bg-orange text-white btn-size-primary" >Sign in</button>
 
                           <h6 className="mt-4 mb-1 text-white font-weight-bold">Don't have an account?</h6>
-                        <Link to="/login" type="button" className="btn btn-bg-violet mb-4 btn-size-primary">Sign up</Link>
+                        <Link to="/sign-up" type="button" className="btn btn-bg-violet mb-4 btn-size-primary">Sign up</Link>
 
                           <div className="text-left">
                           <div href="/"> <p className="text-white font-weight-light "><u>Terms and conditions</u></p></div>

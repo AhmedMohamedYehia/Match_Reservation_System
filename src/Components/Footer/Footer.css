@@ -1,0 +1,118 @@
+#footer {
+    background-color: #000;
+    width: 100%;
+    color: #fff;
+    padding: 3rem 0 0 0rem;
+    height: 15em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  #footer .fa {
+    padding: 10px;
+    font-size: 30px;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    text-decoration: none;
+    margin: 0.5rem;
+  }
+  
+  #footer .fa:hover {
+    opacity: 0.7;
+  }
+  
+  #footer .fa-facebook {
+    background: #3b5998;
+    color: white;
+  }
+  
+  #footer .fa-twitter {
+    background: #55acee;
+    color: white;
+  }
+  #footer .fa-instagram {
+    background: #d6249f;
+    background: radial-gradient(
+      circle at 30% 107%,
+      #fdf497 0%,
+      #fdf497 5%,
+      #fd5949 45%,
+      #d6249f 60%,
+      #285aeb 90%
+    );
+    color: white;
+  }
+  
+  #footer h5 {
+    color: gray;
+    font-size: 1.1rem;
+  }
+  #footer h6 {
+    display: block;
+    padding: 0.5rem 0rem;
+    font-size: 0.9rem;
+  }
+  #footer h6:hover {
+      color: rgb(227, 230, 227);
+  }
+  #footer .footer-row {
+    justify-content: space-evenly;
+  }
+  #footer .privacy-link{
+      color: gray;
+      font-size: 0.9rem;
+      padding-left:1rem ;
+  }
+  #footer .logo img {
+    width: 10rem;
+    height: 4rem;
+  }
+  @media screen and (max-width: 801px){
+      #footer {
+          height: auto;
+          padding: 5rem 1rem 1rem 1rem;
+        }
+        #footer .footer-links-container{
+           margin: 3rem 0;
+           width: 100% !important;
+       } 
+       #footer .footer-row {
+          flex-direction: column !important;
+        }
+        #footer .fa{
+          margin-left: 2rem;
+      } 
+      #footer #mini-footer{
+          margin-left: 0 !important;
+      }
+  }
+  @media screen and (max-width: 701px){
+      #footer {
+          padding-top: 2rem;
+          height: auto;
+        }
+        #footer .logo img {
+            width: 7rem;
+            height: 4rem;
+  
+        }
+        #footer .footer-links-container{
+          flex-direction: column !important;
+       } 
+       #footer .footer-row {
+          flex-direction: column !important;
+        }
+  
+  
+        #footer #mini-footer div{
+          display: flex;
+          flex-direction: column !important;
+      }
+      #footer .privacy-link{
+          padding-left:0rem ;
+      }
+      #footer h5{
+          margin-top: 1rem;
+      }
+  }

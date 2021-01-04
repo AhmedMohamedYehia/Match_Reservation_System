@@ -1,0 +1,33 @@
+
+#matches-whole{
+    
+    background-color: #f5f3f3;
+    height: 100%; 
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#matches-whole .section-header{
+    color: #0c7b43;
+    font-family: '';
+    font-weight: bold;
+}
+#matches-whole .card{
+    box-shadow: 2px 2px 2px 2px #eeecec;
+    color: black;
+    border-color:#78b493  ;
+}
+#matches-whole .card-header{
+    background-color: white   ;
+}
+/* #matches-whole .card{
+    background-color: #78b493;
+}
+#matches-whole .card-header{
+    background-color: #cce0d4;
+}
+#matches-whole .card-body{
+    background-color: #78b493;
+} */

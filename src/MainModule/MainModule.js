@@ -24,6 +24,8 @@ import DeleteUser from "../Components/Admin/DeleteUser"
 import Signup from "../Components/Signup/Signup"
 import Login from "../Components/Login/Login"
 import Home from "../Components/Home/Home"
+import EditMyProfile from "../Components/EditMyProfile/EditMyProfile"
+import Matches from "../Components/Matches/Matches"
 class MainModule extends Component {
     render() {
         // return (
@@ -39,19 +41,25 @@ class MainModule extends Component {
                 {/* <Navbar/>    */}
                 <Switch>     
                     {/* <LoadingScreen/> */}
-                    <Route path="/home" component={StartupPage}/>
                     {/* <Signup/> */}
                     {/* <Login/> */}
                     {/* <Home/> */}
+                    <Route path="/" component={StartupPage} exact/>
+                    <Route path="/sign-up" component={Signup}exact/>
+                    <Route path="/log-in" component={Login}exact/>
+                    <Route path="/home" component={Home}exact/>
+                    <Route path="/edit-my-profile" component={EditMyProfile}/>
+                    <Route path="/matches" component={Matches}/>
 
-                    <Route path="/manager-change-password" component={ChangePassword}/>
-                    <Route path="/manager-create-match" component={CreateNewMatch}/>
-                    <Route path="/manager-add-new-stadium" component={AddNewStadium}/>
-                    <Route path="/manager" component={AccountOverview}/>
-                    <Route path="/manager-edit-profile" component={EditProfile}/>
 
-                    <Route path="/admin" component={ApproveUser}/>
-                    <Route path="/admin-delete-user" component={DeleteUser}/>
+                    <Route path="/manager-change-password" component={ChangePassword}exact/>
+                    <Route path="/manager-create-match" component={CreateNewMatch}exact/>
+                    <Route path="/manager-add-new-stadium" component={AddNewStadium}exact/>
+                    <Route path="/manager" component={AccountOverview}exact/>
+                    <Route path="/manager-edit-profile" component={EditProfile}exact/>
+
+                    <Route path="/admin" component={ApproveUser}exact/>
+                    <Route path="/admin-delete-user" component={DeleteUser}exact/>
 
                     {/* <LoggedInProtectedRoute path="/profile" exact component={UserProfile}/>*/}
             

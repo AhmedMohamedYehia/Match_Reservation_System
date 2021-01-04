@@ -1,0 +1,94 @@
+#navbar-selector{
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 2;
+}
+a:hover{
+    text-decoration: none;
+}
+#not-loggedin-navbar #navbar {
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #000;
+    background: #44a474;
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 3px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,.08);
+    padding: 0 12rem;
+}
+#not-loggedin-navbar #navbar img{
+    max-height: 100%; 
+}
+#not-loggedin-navbar .user-btns-group a:hover{
+    color: rgb(38, 9, 51) !important;
+}
+.vertical-line{
+    border-right: white solid 2px;
+    height: 30%;
+    align-self: center;
+    margin: 0 2px;
+    text-align: center;
+}
+/*LoggedIn navbar*/
+#navbar-container{
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 2;
+    height: 4rem;
+    background: #0b7840;
+    box-shadow: 0 3px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,.08);
+    padding: 0 13rem 0 4rem;
+}
+#loggedin-navbar #navbar-left {
+    display: flex;
+    justify-content: left;
+}
+
+#loggedin-navbar #navbar-left img{
+    max-height: 100%; 
+    padding: 0 2rem;
+}
+#loggedin-navbar #navbar-left .logo,#not-loggedin-navbar .logo{
+    width: 40%;
+}
+#loggedin-navbar #navbar-left{
+    width: 50%;
+}
+#loggedin-navbar #navbar-left .search-container{
+    width: 95%;
+}
+#loggedin-navbar #navbar-left .search-container i{
+   color:white;
+}
+#loggedin-navbar #navbar-left .search-container input::placeholder,#loggedin-navbar #navbar-left .search-container input{
+    color:white;
+}
+#navbar-left .active-white input.form-control[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid white;
+    box-shadow: 0 1px 0 0 white;
+}
+#loggedin-navbar #navbar-right a:hover{
+    text-decoration: none;
+    background-color: #5ca17a;
+}
+
+#loggedin-navbar #navbar-right .btn-group .btn{
+   box-shadow: none;
+}
+#loggedin-navbar #navbar-right a{
+    font-family: 'Cairo';
+    font-size: bold 1rem;
+}
+#loggedin-navbar .fa{
+    font-size: 1.2rem;
+}
+#loggedin-navbar #navbar-right .user-btns-group .user-btn{
+    width: 7rem;
+}
+#loggedin-navbar .user-btns .active{
+    border-bottom: 3px solid white;
+}

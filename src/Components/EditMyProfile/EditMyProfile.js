@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Signup.css"
+import "./EditMyProfile.css"
 // import image from "../../StartupPage/stad.jpg"
 import image from "../../Assets/pitch2.jpg"
 import { Link } from "react-router-dom";
@@ -7,34 +7,21 @@ import { Link } from "react-router-dom";
 // import Message from "../Message/Message"
 import axios from "axios";
 
-// import {responseHandler,baseURL} from "../../Redux/ResponseHandler"
-class Signup extends Component {
+class EditMyProfile extends Component {
   constructor() {
     super();
-    this.state = { gender: "male" };
     this.state = {
-      status: "not connected",
-
-      firstName: "",
-      lastName: "",
-      userName: "",
-      email: "",
-      confirmEmail:"",
-      password: "",
-      confirmPassword:"",
-      phone: "",
-      dateOfBirth: "",
+      firstName: "Ahmed",
+      lastName: "yehia",
+      password: "123456789",
+      phone: "01126683720",
+      dateOfBirth: "1999-10-12",
       gender: "male",
-
       // message:''
-
     };
     this.handleFirstName=this.handleFirstName.bind(this);
     this.handleLastName=this.handleLastName.bind(this);
     this.signup=this.signup.bind(this);
-    this.handleUserName=this.handleUserName.bind(this);
-    this.handleEmail=this.handleEmail.bind(this);
-    this.handleEmailConfirm=this.handleEmailConfirm.bind(this);
     this.handlePassword=this.handlePassword.bind(this);
     this.handlePasswordConfirm=this.handlePasswordConfirm.bind(this);
     this.handleGender=this.handleGender.bind(this);
@@ -86,6 +73,7 @@ class Signup extends Component {
     //       this.setState({message:msg})
         
     //     }) 
+      window.location.replace("/home");
     }
 
       
@@ -95,15 +83,6 @@ class Signup extends Component {
   }
   handleLastName(e){
     this.setState({ lastName: e.target.value });
-  }
-  handleUserName(e){
-    this.setState({ userName: e.target.value });
-  }
-  handleEmail(e){
-    this.setState({ email: e.target.value })
-  }
-  handleEmailConfirm(e){//changed to city
-    this.setState({ confirmEmail: e.target.value })
   }
   handlePassword(e){
     this.setState({ password: e.target.value }) 
@@ -122,13 +101,13 @@ class Signup extends Component {
 
 render() {
     return (
-        <div id="signup-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
-          <div className="container">
+        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
+          <div className="container pt-5 mt-4 ">
               {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
               <form className="container col-lg-6  text-center"  >
                   <div className="text-center container w-90 h-100">
               <div className="container">
-                  <h1 className="mt-5 mb-3" style={{color:"white"}}>Sign up</h1>
+                  <h1 className="mt-5 mb-3" style={{color:"white"}}>Edit Profile</h1>
                   </div>
                     <div className="form-container">      
 
@@ -136,22 +115,10 @@ render() {
                           </div>                  
                           <div className="dropdown-divider"></div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" className="form-control mt-3" aria-describedby="emailHelp" required placeholder="First name" onChange={this.handleFirstName}/>
+                              <input value={this.state.firstName} type="text" className="form-control mt-3" aria-describedby="emailHelp" required placeholder="First name" onChange={this.handleFirstName}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" className="form-control" aria-describedby="emailHelp" required placeholder="Last name" onChange={this.handleLastName}/>
-                          </div>
-                          <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="email" className="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder="Email address" onChange={this.handleEmail}/>
-                          </div>
-                          <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required placeholder="City" onChange={this.handleEmailConfirm}/>
-                          </div>
-                          <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Password" onChange={this.handlePassword}/>
-                          </div>
-                          <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Confirm password" onChange={this.handlePasswordConfirm}/>
+                              <input value={this.state.lastName}  type="text" className="form-control" aria-describedby="emailHelp" required placeholder="Last name" onChange={this.handleLastName}/>
                           </div>
                           <div className="form-group" style={{marginBottom:'6px'}}>
                               <select className="form-control" value={this.state.gender} required onChange={this.handleGender}>
@@ -159,17 +126,20 @@ render() {
                                   <option name="female">Female</option>
                               </select>
                           </div>
-                          <div className="form-group">
-                              <input type="date" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
+                          <div className="form-group" style={{marginBottom:'6px'}}>
+                              <input   value={this.state.dateOfBirth}  type="date" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
+                          </div>
+                          <div className="form-group"style={{marginBottom:'6px'}}>
+                              <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Password" onChange={this.handlePassword}/>
+                          </div>
+                          <div className="form-group"style={{marginBottom:'6px'}}>
+                              <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Confirm password" onChange={this.handlePasswordConfirm}/>
                           </div>
                           <br></br>
-                          <button type="submit" className="btn btn-bg-orange text-white btn-size-primary" >Sign up</button>
-
-                          <h6 className="mt-2 mb-1 text-white font-weight-bold">Already have an account?</h6>
-                          <Link to="/log-in" type="button" className="btn btn-bg-violet mb-2 btn-size-primary">Log in</Link>
-
+                          <button type="submit" className="btn btn-bg-orange text-white btn-size-primary" >Confirm</button>
+                          
                           <div className="text-left">
-                          <div href="/"> <p className="text-white font-weight-light "><u>Terms and conditions</u></p></div>
+                            <div > <p className="text-white font-weight-light "><br></br></p></div>
                           </div>
                     </div>
                   </div>
@@ -179,4 +149,4 @@ render() {
     );
 }}
 
-export default Signup;
+export default EditMyProfile;
