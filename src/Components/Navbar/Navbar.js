@@ -9,7 +9,7 @@ class Navbar extends Component {
 
     this.state = {
       status: "not connected",
-      loginType: "customer",
+      loginType: localStorage.getItem('loginType'),
       loggedIn:true,
     };
   }
@@ -93,12 +93,22 @@ class Navbar extends Component {
                 <div className="d-flex user-btns-group">
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn home-btn" to="/home"  onClick={this.redirectToMain}><i type="icon" className="fa fa-fw fa-home pt-1 align-self-center"></i> Home</Link>
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/matches" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Matches</Link>
-                  {this.state.loginType == "customer"?
-                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
+                  {
+                    this.state.loginType == "customer"?
+                    <>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
+                    </>
                   :
-                   ""
+                    this.state.loginType == "guest"?
+                    <>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/sign-up" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Signup</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/log-in" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Login</Link>
+                    </>
+                    :
+                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
                   }
-                  <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
                   
                 </div>
               </div>

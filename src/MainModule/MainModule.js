@@ -26,6 +26,7 @@ import Login from "../Components/Login/Login"
 import Home from "../Components/Home/Home"
 import EditMyProfile from "../Components/EditMyProfile/EditMyProfile"
 import Matches from "../Components/Matches/Matches"
+import MyReservations from "../Components/MyReservations/MyReservations"
 class MainModule extends Component {
     render() {
         // return (
@@ -50,6 +51,7 @@ class MainModule extends Component {
                     <Route path="/home" component={Home}exact/>
                     <Route path="/edit-my-profile" component={EditMyProfile}/>
                     <Route path="/matches" component={Matches}/>
+                    <Route path="/my-reservations" component={MyReservations}/>
 
 
                     <Route path="/manager-change-password" component={ChangePassword}exact/>

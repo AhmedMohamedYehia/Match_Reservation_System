@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import logo from "../Assets/HighGreenLogo.png"
 function StartupPage () {
 
+    localStorage.setItem('loginType', "guest");
     return (
         <div id="start-whole-back" style={{backgroundImage: `url(${image})` }} >
             <div id="start-navbar" className="row">
