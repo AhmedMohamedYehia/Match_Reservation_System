@@ -34,3 +34,12 @@
 #matches-whole .hide{
     display: none;
 }
+#stadium{
+    background-color: #0b7840;
+    text-align: center;
+    color: white;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 20px;
+    font-size: 1.4rem;
+}

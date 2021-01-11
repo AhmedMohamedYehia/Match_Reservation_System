@@ -11,7 +11,6 @@ import axios from "axios";
 class Signup extends Component {
   constructor() {
     super();
-    this.state = { gender: "male" };
     this.state = {
       status: "not connected",
 
@@ -19,14 +18,14 @@ class Signup extends Component {
       lastName: "",
       userName: "",
       email: "",
-      confirmEmail:"",
+      city:"",
       password: "",
       confirmPassword:"",
       phone: "",
       dateOfBirth: "",
       gender: "male",
 
-      // message:''
+      message:''
 
     };
     this.handleFirstName=this.handleFirstName.bind(this);
@@ -34,7 +33,7 @@ class Signup extends Component {
     this.signup=this.signup.bind(this);
     this.handleUserName=this.handleUserName.bind(this);
     this.handleEmail=this.handleEmail.bind(this);
-    this.handleEmailConfirm=this.handleEmailConfirm.bind(this);
+    this.handleCity=this.handleCity.bind(this);
     this.handlePassword=this.handlePassword.bind(this);
     this.handlePasswordConfirm=this.handlePasswordConfirm.bind(this);
     this.handleGender=this.handleGender.bind(this);
@@ -44,51 +43,40 @@ class Signup extends Component {
   
   signup(e){
     e.preventDefault(); 
-
     if(this.state.password.length<9){
-      this.setState({message:"Password must be over 8 characters."})
+      alert("Password must be over 8 characters.")
     }
     else if(this.state.password!=this.state.confirmPassword){
-      this.setState({message:"Passwords don't match."})
-    }
-    else if(this.state.email!=this.state.confirmEmail){
-      this.setState({message:"Emails don't match."})
-    }
-    else if(this.state.phone.length!=11){
-      this.setState({message:"Phone must be 11 numbers"})
+      alert("Passwords don't match.")
     }
     else{
-    //   this.context.baseURL
-    //   axios.post(baseURL+'/register/signUp',
-    //   {
-    //       "email": this.state.email,
-    //       "password": this.state.password,
-    //       "displayName":{
-    //         "firstName":this.state.firstName,
-    //         "lastName":this.state.lastName
-    //       },
-    //       "phone": this.state.phone,
-    //       "dateOfBirth": this.state.dateOfBirth,
-    //       "gender": this.state.gender,
-    //       "userName": this.state.userName
-    //     },{withCredentials: true, credentials: 'include'}
-    //     )   
-    //     .then(res => {
-    //       if(res.status===201)
-    //       {
-    //         window.location.replace("/home");
-    //       }
-    //       else
-    //       {
-    //       }   
-    //     }).catch(async (err) => {
-    //       const msg=await responseHandler(err);
-    //       this.setState({message:msg})
-        
-    //     }) 
+        axios.post('https://efa-website-cufe.herokuapp.com'+'/signUp',
+        {
+          userName:this.state.userName,
+          firstName:this.state.firstName,
+          lastName:this.state.lastName,
+          city:this.state.city,
+          email:this.state.email,
+          password:this.state.password,
+          gender: this.state.gender
+        }
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+          if(res.status===200)
+          {
+            alert("Signed up correctly, wait until a admin confirms your signup so you can login.")
+            window.location.replace("/");
+          }
+          else
+          {
+          }   
+        }).catch(err=>{
+          if (err.message=="Request failed with status code 400") {
+            alert("Username and Email must be unique!")
+          }
+        })
     }
-
-      
   }
   handleFirstName(e){
     this.setState({ firstName: e.target.value });
@@ -102,8 +90,8 @@ class Signup extends Component {
   handleEmail(e){
     this.setState({ email: e.target.value })
   }
-  handleEmailConfirm(e){//changed to city
-    this.setState({ confirmEmail: e.target.value })
+  handleCity(e){
+    this.setState({ city: e.target.value })
   }
   handlePassword(e){
     this.setState({ password: e.target.value }) 
@@ -124,11 +112,10 @@ render() {
     return (
         <div id="signup-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
           <div className="container">
-              {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
               <form className="container col-lg-6  text-center"  >
                   <div className="text-center container w-90 h-100">
               <div className="container">
-                  <h1 className="mt-5 mb-3" style={{color:"white"}}>Sign up</h1>
+                  <h1 className="mt-4 mb-3" style={{color:"white"}}>Sign up</h1>
                   </div>
                     <div className="form-container">      
 
@@ -136,7 +123,10 @@ render() {
                           </div>                  
                           <div className="dropdown-divider"></div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" className="form-control mt-3" aria-describedby="emailHelp" required placeholder="First name" onChange={this.handleFirstName}/>
+                              <input type="text" className="form-control " aria-describedby="emailHelp" required placeholder="User name" onChange={this.handleUserName}/>
+                          </div>
+                          <div className="form-group"style={{marginBottom:'6px'}}>
+                              <input type="text" className="form-control" aria-describedby="emailHelp" required placeholder="First name" onChange={this.handleFirstName}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
                               <input type="text" className="form-control" aria-describedby="emailHelp" required placeholder="Last name" onChange={this.handleLastName}/>
@@ -145,7 +135,7 @@ render() {
                               <input type="email" className="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder="Email address" onChange={this.handleEmail}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required placeholder="City" onChange={this.handleEmailConfirm}/>
+                              <input type="text" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required placeholder="City" onChange={this.handleCity}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
                               <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Password" onChange={this.handlePassword}/>
@@ -163,7 +153,7 @@ render() {
                               <input type="date" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
                           </div>
                           <br></br>
-                          <button type="submit" className="btn btn-bg-orange text-white btn-size-primary" >Sign up</button>
+                          <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Sign up</button>
 
                           <h6 className="mt-2 mb-1 text-white font-weight-bold">Already have an account?</h6>
                           <Link to="/log-in" type="button" className="btn btn-bg-violet mb-2 btn-size-primary">Log in</Link>

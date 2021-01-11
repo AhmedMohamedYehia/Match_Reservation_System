@@ -25,19 +25,43 @@ class Signup extends Component {
   
   signup(e){
     e.preventDefault(); 
-    axios({
-      method:"POST",
-      url:'https://efa-website-cufe.herokuapp.com'+'/signIn',
-      params:{ userName:this.state.username, password:this.state.password },
-      withCredentials: true,
-      credentials: 'include',
-      // cancelToken: new axios.CancelToken(c =>cancel=c)
-    }).then(res=>{
-      console.log("request: "+res)
-    }).catch(e=>{
-        if(axios.isCancel(e))return
-        console.log("Error: "+e)
-    })
+    axios.post('https://efa-website-cufe.herokuapp.com'+'/signIn',
+      {
+          "userName": this.state.email,
+          "password": this.state.password,
+        },{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+          if(res.status===200)
+          {
+            console.log("hereee: "+res.data.token);
+            window.location.replace("/home");
+            localStorage.setItem('loginType', "customer");
+            localStorage.setItem('userName', this.state.email);
+            localStorage.setItem('password', this.state.password);
+            localStorage.setItem('token', res.data.token);
+          }
+          else
+          {
+          }   
+        }).catch(async (err) => {
+          // const msg=await responseHandler(err);
+          // this.setState({message:msg})
+        
+        }) 
+    // axios({
+    //   method:"POST",
+    //   url:'https://efa-website-cufe.herokuapp.com'+'/admin/signIn',
+    //   params:{ userName:this.state.username, password:this.state.password },
+    //   withCredentials: true,
+    //   credentials: 'include',
+    //   // cancelToken: new axios.CancelToken(c =>cancel=c)
+    // }).then(res=>{
+    //   console.log("request: "+res)
+    // }).catch(e=>{
+    //     if(axios.isCancel(e))return
+    //     console.log("Error: "+e)
+    // })
   }
   handleUserNAme(e){
     this.setState({ email: e.target.value })

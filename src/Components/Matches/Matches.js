@@ -1,155 +1,273 @@
 import React, { Component } from "react";
-// import image from "./stad.jpg"
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef, useCallback } from "react"
 import Navbar from "../Navbar/Navbar"
 import Footer from "../Footer/Footer"
-import "./Matches.css"
-const dumMatches = [
-    {
-        matchId: 1,
-        homeTeam : "zamalek1",
-        awayTeam : "ahly2",
-        stadium : "cairo stad",
-        dateOfMatch : "1999-10-12",
-        mainReferee: "ahmed yehia",
-        firstLineman: "ahmed",
-        secondLineman: "yehia"
-    },
-    {
-        matchId: 2,
-        homeTeam : "zamalek2",
-        awayTeam : "ahly2",
-        stadium : "cairo stad",
-        dateOfMatch : "1999-10-12",
-        mainReferee: "ahmed yehia",
-        firstLineman: "ahmed",
-        secondLineman: "yehia"
-    },
-    {
-        matchId: 3,
-        homeTeam : "zamalek3",
-        awayTeam : "ahly3",
-        stadium : "cairo stad",
-        dateOfMatch : "1999-10-12",
-        mainReferee: "ahmed yehia",
-        firstLineman: "ahmed",
-        secondLineman: "yehia"
-    },
-    {
-        matchId: 4,
-        homeTeam : "zamalek4",
-        awayTeam : "ahly4",
-        stadium : "cairo stad",
-        dateOfMatch : "1999-10-12",
-        mainReferee: "ahmed yehia",
-        firstLineman: "ahmed",
-        secondLineman: "yehia"
-    },
-    {
-        matchId: 5,
-        homeTeam : "zamalek5",
-        awayTeam : "ahly5",
-        stadium : "cairo stad",
-        dateOfMatch : "1999-10-12",
-        mainReferee: "ahmed yehia",
-        firstLineman: "ahmed",
-        secondLineman: "yehia"
+import "./Matches.css";
+import axios from "axios";
+import DrawGrid from "./DrawGrid"
+
+export default class Matches extends Component  {
+    constructor() {
+        super();
+        this.state = {
+            status: "not connected",
+            seatsLength: 0,
+            matchID:"",
+            myMatches: "",
+            loginType: localStorage.getItem('loginType'),
+            seats: [],
             
+            seat: [],
+            seatAvailable: [],
+            seatReserved: [],
+            
+            // seat: seatsAll,
+            // seatAvailable:seatsAvail,
+            // seatReserved: seatsNotAvail
+    
+        };
+        this.callBackFunct=this.callBackFunct.bind(this);
+        axios.get("https://efa-website-cufe.herokuapp.com/match/all"
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+          if(res.status===200)
+          {
+            this.setState({myMatches: res.data.matches})
+          }
+          else
+          {
+          }   
+        }).catch(err=>{
+          if (err.message=="Request failed with status code 400") {
+            alert("Username and Email must be unique!")
+          }
+        })
     }
-]
-export default function Matches () {
-    const [myMatches,setMyMatches] = useState(dumMatches);
-    const [loginType,setLoginType] = useState(localStorage.getItem('loginType'));
-    const [selectedMatch,setSelectedMatch] = useState("");
-
-    // const [loginType,setLoginType] = useState("manager");
-
-    function reserveMAtch(matchID){
-        // add request to get selected match data
-        // setSelectedMatch(matchID);
-        window.scrollTo(0, 0)
+    callBackFunct(matchID){
+        this.setState({matchID:matchID});
+        axios.get("https://efa-website-cufe.herokuapp.com/ticket/all/"+matchID
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+            if(res.status===200)
+            {
+                this.setState({seatsLength:res.data.ticket.length})
+                this.setState({seats:res.data.ticket})
+                window.scrollTo(0,0)
+            }
+            else
+            {
+            }   
+        }).catch(err=>{
+            if (err.message=="Request failed with status code 400") {
+                alert("Username and Email must be unique!")
+            }
+        }).then(e=>{
+            // console.log("seats length inside finally: "+this.state.seats)
+            this.preprocessData()
+        })
     }
-    return (
-        <>
-            <Navbar/>
-            <div id="matches-whole" className="matches-container container">
-                <div className="row matches-chosen-match mb-5 pt-5" style={{display: selectedMatch==""?"none":""}}>
+    getAllTickets(){
+        axios.get("https://efa-website-cufe.herokuapp.com/ticket/all/"+this.state.matchID
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+            if(res.status===200)
+            {
+                this.setState({seatsLength:res.data.ticket.length})
+                this.setState({seats:res.data.ticket})
+            }
+            else
+            {
+            }   
+        }).catch(err=>{
+            if (err.message=="Request failed with status code 400") {
+            }
+        }).then(e=>{
+            this.preprocessData()
+        })
+    }
+    preprocessData(){
+        var seatsAvail =[];
+        var seatsNotAvail = [];
+        var seatsAll = [];
+        // console.log("whole seats length: "+this.state.seatsLength)
+        for (let i = 0; i < this.state.seats.length; i++) {
+            seatsAll.push(this.state.seats[i])
+            // console.log(this.state.seats[i].owner)
+            if (this.state.seats[i].owner == null && i<this.state.seatsLength) {
+                seatsAvail.push(this.state.seats[i])
+            }
+            else if(this.state.seats[i].owner != null && i<this.state.seatsLength){
+                seatsNotAvail.push((this.state.seats[i]))
+            }
+        }
+        this.setState({seatAvailable:seatsAvail})
+        // console.log("ticket id: "+ this.state.seatAvailable[0]._id)
+        this.setState({seat:seatsAll})
+        this.setState({seatReserved:seatsNotAvail})
+        
+        seatsAvail.length =0;
+        seatsNotAvail.length = 0;
+        seatsAll.length = 0;
+        
+        setTimeout(this.getAllTickets(), 2000);
+    }
 
-                </div>
-                <h2 className="section-header pt-5">Matches:</h2>
-                <div className="row matches-matches pt-2">
+    onClickData(seat) {
+        if (seat.owner != null) {
+            alert("cannot reserve already reserved seat!");
+            return;
+        }
+        var person = prompt("Please enter your credit card number", "");
+        axios.defaults.withCredentials = true
+        // console.log("empty prompt: +"+person)
+        if (person != null && person != "") {
+            person = prompt("Please enter your bin number", "")
+            if (person != null && person != "") {
+                // console.log("_id: "+seat._id)
+                // console.log("token: "+localStorage.getItem("token"))
+                axios.post("https://efa-website-cufe.herokuapp.com/match/reserveTicket",
+                {
+                    ticketId:seat._id
+                }
+                ,{
+                    headers: {
+                        'authorization': "Bearer "+localStorage.getItem("token"),
+                    },
+                }
+                ,{withCredentials: true}
+                )   
+                .then(res => {
+                    if(res.status===200)
                     {
-                        myMatches.map((match,index)=>(
-                            // <div class="card-group">
-                                <div class="card text-center mb-3">
-                                    <div class="card-body container">
-                                        <div className="row match-dateOfMatch-time justify-content-center">
-                                            <div className="" >
-                                                <h1 >
-                                                {match.dateOfMatch} 
-                                                </h1>
-                                            </div>
-                                        </div>
-                                        <hr></hr>
-                                        <div className="row match-teams justify-content-center">
-                                            <div className="col-4">
-                                                <h1 style={{color:"Black"}}><strong>{match.homeTeam}</strong></h1>
-                                            </div>
-                                            <div className="col-2">
-                                                <strong>VS</strong>
-                                            </div>
-                                            <div className="col-4">
-                                                <h1 style={{color:"black"}}><strong>{match.awayTeam}</strong></h1>
-                                            </div>
-                                        </div>
-                                        <hr></hr>
-                                        <div className="row match-stad justify-content-center">
-                                            <div className="">
-                                                <h3><strong>{match.stadium}</strong></h3>
-                                            </div>
-                                        </div>
-                                        <hr></hr>
-                                        <div className="row match-main-ref justify-content-center">
-                                            <div className="col-2">
-                                                <h3>Main refree: </h3>
-                                            </div>
-                                            <div className="col-8">
-                                                <h3>{match.mainReferee}</h3>
-                                            </div>
-                                        </div>
-                                        <div className="row match-sub-refs justify-content-center">
-                                            <div className="col-2">
-                                                <h3>Lines man:</h3>
-                                            </div>
-                                            <div className="col-4">
-                                                <h3 >{match.firstLineman}</h3>
-                                            </div>
-                                            <div className="col-4">
-                                                <h3 >{match.secondLineman}</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        loginType == "manager" ?
-                                        <div class="card-footer">
-                                            <Link to="/sign-up" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Edit Match</button></Link>
-                                        </div>
-                                        :
-                                            loginType == "customer" ?
-                                            <div class="card-footer">
-                                                <Link className="row justify-content-center"><button onClick={reserveMAtch(match.matchId)} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button></Link>
-                                            </div>
-                                            :
-                                            ""
-                                    } 
-                                </div>
-                            // </div>
-                        ))
+                        alert("your ticket unique number is: "+res.data.ticket._id)
                     }
+                    else
+                    {
+                    }   
+                }).catch(err=>{
+                    if (err.message=="Request failed with status code 400") {
+                    }
+                })
+            }
+        }
+    }
+    
+
+    render() {
+        return (
+            <>
+                <Navbar/>
+                <div id="matches-whole" className="matches-container container">
+                    <div className="row matches-chosen-match mb-5 pt-5" >
+                        {
+                            this.state.seat.length > 0?
+                            <>
+                                <div className="justify-content-center"> 
+                                    <h2 className="section-header pt-5" style={{textAlign:"center"}}>Seat Reservation:</h2>
+                                    <div id="stadium" >
+                                        Pitch
+                                    </div>
+                                    <DrawGrid 
+                                            seat = { this.state.seat }
+                                            available = { this.state.seatAvailable }
+                                            reserved = { this.state.seatReserved }
+                                            onClickData = { this.onClickData.bind(this) }
+                                            />
+                                </div>
+                            </>
+                            :
+                            ""
+                        }
+                    </div>
+                    <hr></hr>
+                    <h2 className="section-header pt-5" style={{textAlign:"center"}}>Matches:</h2>
+                    <div className="row matches-matches pt-2">
+                        
+                        {  
+                            this.state.myMatches !== ""
+                            ?
+                            
+                                this.state.myMatches.map((match,index)=>(
+                                    // <div class="card-group">
+                                        <div className="card text-center mb-3">
+                                            <div className="card-body container">
+                                                <div className="row match-dateOfMatch-time justify-content-center">
+                                                    <div className="" >
+                                                        <h1 >
+                                                        {match.dateOfMatch} 
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                                <div className="row match-teams justify-content-center">
+                                                    <div className="col-4">
+                                                        <h1 style={{color:"Black"}}><strong>{match.homeTeam.name}</strong></h1>
+                                                    </div>
+                                                    <div className="col-2">
+                                                        <strong>VS</strong>
+                                                    </div>
+                                                    <div className="col-4">
+                                                        <h1 style={{color:"black"}}><strong>{match.awayTeam.name}</strong></h1>
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                                <div className="row match-stad justify-content-center">
+                                                    <div className="">
+                                                        <h3><strong>{match.stadium.name}</strong></h3>
+                                                    </div>
+                                                </div>
+                                                <hr></hr>
+                                                <div className="row match-main-ref justify-content-center">
+                                                    <div className="col-2">
+                                                        <h3>Main refree: </h3>
+                                                    </div>
+                                                    <div className="col-8">
+                                                        <h3>{match.mainReferee}</h3>
+                                                    </div>
+                                                </div>
+                                                <div className="row match-sub-refs justify-content-center">
+                                                    <div className="col-2">
+                                                        <h3>Lines man:</h3>
+                                                    </div>
+                                                    <div className="col-4">
+                                                        <h3 >{match.firstLineman}</h3>
+                                                    </div>
+                                                    <div className="col-4">
+                                                        <h3 >{match.secondLineman}</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {
+                                                this.state.loginType == "manager" ?
+                                                <div className="card-footer">
+                                                    <Link matchId={match._id} to="/sign-up" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Edit Match</button></Link>
+                                                </div>
+                                                :
+                                                    this.state.loginType == "customer" ?
+                                                    <div className="card-footer">
+                                                        <Link to  className="row justify-content-center"><button onClick={() => { this.callBackFunct(match._id) }} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button></Link>
+                                                        {/* <button onClick={reserveMAtch(match.stadium,index)} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button> */}
+                                                    </div>
+                                                    :
+                                                    ""
+                                            } 
+                                        </div>
+                                    // </div>
+                                ))
+                            :
+                            <div className="row justify-content-center" style={{textAlign:"center"}}>
+                                <h1 style={{height:"100vh"}}>No matches available! </h1>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
-            <Footer/>
-        </>
-    )
-}
+                <Footer/>
+            </>
+    );
+}}
+
+
+

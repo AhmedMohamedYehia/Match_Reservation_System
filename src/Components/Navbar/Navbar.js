@@ -55,18 +55,21 @@ class Navbar extends Component {
   }
   handleSignOut=(e)=>{
     e.preventDefault();
-    // axios.post(baseURL+'/register/logout',{},{withCredentials: true, credentials: 'include'}
-    // )   
-    // .then(res => {
-    //   console.log(res);
-    //   if(res.status===200)
-    //   {
-    //     window.location.replace("/");
-    //   }
-    //   else
-    //   {
-    //   }   
-    // }).catch(async (err) => {
+    axios.post('https://efa-website-cufe.herokuapp.com'+"/signOut",{
+      "userName":localStorage.getItem('userName'),
+      "password":localStorage.getItem('password')
+    },{withCredentials: true, credentials: 'include'}
+    )   
+    .then(res => {
+      console.log(res);
+      if(res.status===200)
+      {
+        window.location.replace("/");
+      }
+      else
+      {
+      }   
+    }).catch(async (err) => {
     //   const msg=await responseHandler(err);
     //  if(msg==="token refreshed"){
     //      console.log("refreshed")
@@ -75,7 +78,7 @@ class Navbar extends Component {
     //  else if (msg==="logout"){
     //      console.log("not refreshed")
     //  }   
-    // })
+    })
     window.location.replace("/");
   }
   redirectToMain=(e)=>{
@@ -92,19 +95,19 @@ class Navbar extends Component {
               <div id="navbar-right" className="d-flex user-btns">
                 <div className="d-flex user-btns-group">
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn home-btn" to="/home"  onClick={this.redirectToMain}><i type="icon" className="fa fa-fw fa-home pt-1 align-self-center"></i> Home</Link>
-                  <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/matches" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Matches</Link>
+                  <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/matches"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Matches</Link>
                   {
                     this.state.loginType == "customer"?
                     <>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
                       <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
                     </>
                   :
                     this.state.loginType == "guest"?
                     <>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/sign-up" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Signup</Link>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/log-in" key="/login"  onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Login</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/sign-up"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Signup</Link>
+                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/log-in"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Login</Link>
                     </>
                     :
                     <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>

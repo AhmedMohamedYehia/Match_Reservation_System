@@ -11,72 +11,92 @@ class EditMyProfile extends Component {
   constructor() {
     super();
     this.state = {
-      firstName: "Ahmed",
-      lastName: "yehia",
-      password: "123456789",
-      phone: "01126683720",
-      dateOfBirth: "1999-10-12",
-      gender: "male",
+      myData: {
+        firstName: "",
+        lastName: "",
+        city:"",
+        password: "",
+        confirmPassword:"",
+        dateOfBirth: "",
+        gender: ""
+      },
+      
+      firstName: "",
+      lastName: "",
+      city:"",
+      password: "",
+      confirmPassword:"",
+      dateOfBirth: "",
+      gender: "",
       // message:''
     };
     this.handleFirstName=this.handleFirstName.bind(this);
     this.handleLastName=this.handleLastName.bind(this);
     this.signup=this.signup.bind(this);
+    this.handleCity=this.handleCity.bind(this);
     this.handlePassword=this.handlePassword.bind(this);
-    this.handlePasswordConfirm=this.handlePasswordConfirm.bind(this);
     this.handleGender=this.handleGender.bind(this);
     this.handleBirthDate=this.handleBirthDate.bind(this);
+    axios.get("https://efa-website-cufe.herokuapp.com/me"
+    ,{
+        headers: {
+            'authorization': "Bearer "+localStorage.getItem("token"),
+        },
+    }
+    ,{withCredentials: true}
+    )   
+    .then(res => {
+        if(res.status===200)
+        {
+          this.setState({myData:res.data})
+        }
+        else
+        {
+        }   
+    }).catch(err=>{
+        if (err.message=="Request failed with status code 400") {
+        }
+    })
   }
 
   
   signup(e){
     e.preventDefault(); 
-
     if(this.state.password.length<9){
-      this.setState({message:"Password must be over 8 characters."})
-    }
-    else if(this.state.password!=this.state.confirmPassword){
-      this.setState({message:"Passwords don't match."})
-    }
-    else if(this.state.email!=this.state.confirmEmail){
-      this.setState({message:"Emails don't match."})
-    }
-    else if(this.state.phone.length!=11){
-      this.setState({message:"Phone must be 11 numbers"})
+      alert("Password must be over 8 characters.")
     }
     else{
-    //   this.context.baseURL
-    //   axios.post(baseURL+'/register/signUp',
-    //   {
-    //       "email": this.state.email,
-    //       "password": this.state.password,
-    //       "displayName":{
-    //         "firstName":this.state.firstName,
-    //         "lastName":this.state.lastName
-    //       },
-    //       "phone": this.state.phone,
-    //       "dateOfBirth": this.state.dateOfBirth,
-    //       "gender": this.state.gender,
-    //       "userName": this.state.userName
-    //     },{withCredentials: true, credentials: 'include'}
-    //     )   
-    //     .then(res => {
-    //       if(res.status===201)
-    //       {
-    //         window.location.replace("/home");
-    //       }
-    //       else
-    //       {
-    //       }   
-    //     }).catch(async (err) => {
-    //       const msg=await responseHandler(err);
-    //       this.setState({message:msg})
-        
-    //     }) 
-      window.location.replace("/home");
+        axios.put('https://efa-website-cufe.herokuapp.com'+'/me',
+        {
+          userName:this.state.myData.userName,
+          firstName:this.state.firstName,
+          lastName:this.state.lastName,
+          city:this.state.city,
+          email:this.state.myData.email,
+          password:this.state.password,
+          gender: this.state.gender
+        },{
+          headers: {
+              'authorization': "Bearer "+localStorage.getItem("token"),
+          },
+        }
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+          if(res.status===200)
+          {
+            alert("Your data have been updated correctly!")
+            window.location.replace("/home");
+          }
+          else
+          {
+          }   
+        }).catch(err=>{
+          if (err.message=="Request failed with status code 400") {
+            alert("Username and Email must be unique!")
+          }
+        })
     }
-
-      
   }
   handleFirstName(e){
     this.setState({ firstName: e.target.value });
@@ -84,11 +104,11 @@ class EditMyProfile extends Component {
   handleLastName(e){
     this.setState({ lastName: e.target.value });
   }
+  handleCity(e){
+    this.setState({ city: e.target.value })
+  }
   handlePassword(e){
     this.setState({ password: e.target.value }) 
-  }
-  handlePasswordConfirm(e){
-    this.setState({ confirmPassword: e.target.value }) 
   }
   handleGender(e) {
     this.setState({ gender: e.target.value });
@@ -111,35 +131,35 @@ render() {
                   </div>
                     <div className="form-container">      
 
-                      <div className="divider">
+                    <div className="divider">
                           </div>                  
                           <div className="dropdown-divider"></div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input value={this.state.firstName} type="text" className="form-control mt-3" aria-describedby="emailHelp" required placeholder="First name" onChange={this.handleFirstName}/>
+                              <input type="text" placeholder={this.state.myData.firstName} className="form-control" aria-describedby="emailHelp" required  onChange={this.handleFirstName}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input value={this.state.lastName}  type="text" className="form-control" aria-describedby="emailHelp" required placeholder="Last name" onChange={this.handleLastName}/>
+                              <input type="text" placeholder={this.state.myData.lastName}  className="form-control" aria-describedby="emailHelp" required onChange={this.handleLastName}/>
+                          </div>
+                          <div className="form-group"style={{marginBottom:'6px'}}>
+                              <input type="text" placeholder={this.state.myData.city}  className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required  onChange={this.handleCity}/>
                           </div>
                           <div className="form-group" style={{marginBottom:'6px'}}>
-                              <select className="form-control" value={this.state.gender} required onChange={this.handleGender}>
+                              <select className="form-control" placeholder={this.state.myData.gender} required onChange={this.handleGender}>
                                   <option name="male">Male</option>
                                   <option name="female">Female</option>
                               </select>
                           </div>
                           <div className="form-group" style={{marginBottom:'6px'}}>
-                              <input   value={this.state.dateOfBirth}  type="date" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
+                              <input type="date"placeholder={this.state.myData.dateOfBirth}  className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} />
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
                               <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Password" onChange={this.handlePassword}/>
                           </div>
-                          <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Confirm password" onChange={this.handlePasswordConfirm}/>
-                          </div>
                           <br></br>
-                          <button type="submit" className="btn btn-bg-orange text-white btn-size-primary" >Confirm</button>
-                          
+                          <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Confirm</button>
+
                           <div className="text-left">
-                            <div > <p className="text-white font-weight-light "><br></br></p></div>
+                          <div href="/"> <p className="text-white font-weight-light "><u>Terms and conditions</u></p></div>
                           </div>
                     </div>
                   </div>
