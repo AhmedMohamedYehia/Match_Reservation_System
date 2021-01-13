@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 // import {responseHandler,baseURL} from "../../Redux/ResponseHandler"
-class Login extends Component {
+class AdminLogin extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,7 +25,7 @@ class Login extends Component {
   
   signup(e){
     e.preventDefault(); 
-    axios.post('https://efa-website-cufe.herokuapp.com'+'/signIn',
+    axios.post('https://efa-website-cufe.herokuapp.com'+'/admin/signIn',
       {
           "userName": this.state.email,
           "password": this.state.password,
@@ -36,7 +36,7 @@ class Login extends Component {
           {
             console.log("hereee: "+res.data.token);
             window.location.replace("/home");
-            localStorage.setItem('loginType', "manager");
+            localStorage.setItem('loginType', "admin");
             localStorage.setItem('userName', this.state.email);
             localStorage.setItem('password', this.state.password);
             localStorage.setItem('token', res.data.token);
@@ -114,4 +114,4 @@ render() {
     );
 }}
 
-export default Login;
+export default AdminLogin;

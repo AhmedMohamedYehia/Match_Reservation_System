@@ -27,6 +27,7 @@ export default class Matches extends Component  {
     
         };
         this.callBackFunct=this.callBackFunct.bind(this);
+        this.handleDeleteMatch=this.handleDeleteMatch.bind(this);
         axios.get("https://efa-website-cufe.herokuapp.com/match/all"
         ,{withCredentials: true, credentials: 'include'}
         )   
@@ -154,6 +155,33 @@ export default class Matches extends Component  {
             }
         }
     }
+
+    handleDeleteMatch(matchId){
+        axios.delete('https://efa-website-cufe.herokuapp.com/match',
+        {
+            matchId:matchId
+        },{
+        headers: {
+            'authorization': "Bearer "+localStorage.getItem("token"),
+        },
+        }
+        ,{withCredentials: true, credentials: 'include'}
+        )   
+        .then(res => {
+        if(res.status===200)
+        {
+            alert("The match have been deleted correctly!")
+            // window.location.replace("/matches");
+        }
+        else
+        {
+        }   
+        }).catch(err=>{
+        if (err.message=="Request failed with status code 400") {
+            // alert("Please make sure that you chose the right data!")
+        }
+        })
+    }
     
 
     render() {
@@ -171,6 +199,7 @@ export default class Matches extends Component  {
                                         Pitch
                                     </div>
                                     <DrawGrid 
+                                            className="ml-2 pl-4"
                                             seat = { this.state.seat }
                                             available = { this.state.seatAvailable }
                                             reserved = { this.state.seatReserved }
@@ -243,7 +272,31 @@ export default class Matches extends Component  {
                                             {
                                                 this.state.loginType == "manager" ?
                                                 <div className="card-footer">
-                                                    <Link matchId={match._id} to="/sign-up" className="row justify-content-center"><button type="button" className="btn btn-outline-success btn-lg">Edit Match</button></Link>
+
+                                                        <Link className="row justify-content-center p-0"><button data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" className="btn btn-outline-success btn-lg">Delete Match</button></Link>
+                                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this match?</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="button" onClick={()=>{this.handleDeleteMatch(match._id)}} class="btn btn-outline-success">Yes, delete.</button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <Link   to={{
+                                                            pathname: '/edit-match',
+                                                            state: {
+                                                                match: match
+                                                            }
+                                                            }}   className="row justify-content-center">
+                                                            <button type="button" className="btn btn-outline-success btn-lg mt-2">Edit Match</button>
+                                                        </Link>
+                                                        <Link to  className="row justify-content-center mt-2 p-0"><button onClick={() => { this.callBackFunct(match._id) }} type="button" className="btn btn-outline-success btn-lg">See Match Reservation Status</button></Link>
                                                 </div>
                                                 :
                                                     this.state.loginType == "customer" ?
@@ -252,7 +305,10 @@ export default class Matches extends Component  {
                                                         {/* <button onClick={reserveMAtch(match.stadium,index)} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button> */}
                                                     </div>
                                                     :
-                                                    ""
+                                                        this.state.loginType == "admin" ?
+                                                        <Link to  className="row justify-content-center mt-2 p-0"><button onClick={() => { this.callBackFunct(match._id) }} type="button" className="btn btn-outline-success btn-lg">See Match Reservation Status</button></Link>
+                                                        :
+                                                        ""
                                             } 
                                         </div>
                                     // </div>

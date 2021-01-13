@@ -53,6 +53,34 @@ class Navbar extends Component {
       e.target.classList.add("active");
     }
   }
+  handleAdminSignOut=(e)=>{
+    e.preventDefault();
+    axios.delete('https://efa-website-cufe.herokuapp.com'+"/admin/signOut",{
+      "userName":localStorage.getItem('userName'),
+      "password":localStorage.getItem('password')
+    },{withCredentials: true, credentials: 'include'}
+    )   
+    .then(res => {
+      console.log(res);
+      if(res.status===200)
+      {
+        window.location.replace("/admin-log-in");
+      }
+      else
+      {
+      }   
+    }).catch(async (err) => {
+    //   const msg=await responseHandler(err);
+    //  if(msg==="token refreshed"){
+    //      console.log("refreshed")
+    //      this.handleSignOut(e);
+    //  }
+    //  else if (msg==="logout"){
+    //      console.log("not refreshed")
+    //  }   
+    })
+    // window.location.replace("/admin-log-in");
+  }
   handleSignOut=(e)=>{
     e.preventDefault();
     axios.post('https://efa-website-cufe.herokuapp.com'+"/signOut",{
@@ -79,7 +107,7 @@ class Navbar extends Component {
     //      console.log("not refreshed")
     //  }   
     })
-    window.location.replace("/");
+    // window.location.replace("/");
   }
   redirectToMain=(e)=>{
     e.preventDefault();
@@ -97,12 +125,12 @@ class Navbar extends Component {
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn home-btn" to="/home"  onClick={this.redirectToMain}><i type="icon" className="fa fa-fw fa-home pt-1 align-self-center"></i> Home</Link>
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/matches"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Matches</Link>
                   {
-                    this.state.loginType == "customer"?
-                    <>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
-                      <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
-                    </>
+                  this.state.loginType == "customer"?
+                  <>
+                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
+                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
+                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
+                  </>
                   :
                     this.state.loginType == "guest"?
                     <>
@@ -110,7 +138,20 @@ class Navbar extends Component {
                       <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/log-in"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Login</Link>
                     </>
                     :
-                    <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
+                      this.state.loginType == "admin"?
+                        <>
+                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-stadium"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Remove User</Link>
+                          <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-stadium"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Pending Users</Link>
+                          <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleAdminSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
+                        </>
+                      :
+                      //manager
+                      <>
+                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-stadium"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Add Stadium</Link>
+                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-match"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Add Match</Link>
+                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
+                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
+                      </>
                   }
                   
                 </div>

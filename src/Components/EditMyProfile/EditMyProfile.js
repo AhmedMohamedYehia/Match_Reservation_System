@@ -120,8 +120,9 @@ class EditMyProfile extends Component {
 
 
 render() {
+  console.log("date: "+this.state.myData.dateOfBirth)
     return (
-        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
+        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-3 pb-3">
           <div className="container pt-5 mt-4 ">
               {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
               <form className="container col-lg-6  text-center"  >
@@ -135,31 +136,32 @@ render() {
                           </div>                  
                           <div className="dropdown-divider"></div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" placeholder={this.state.myData.firstName} className="form-control" aria-describedby="emailHelp" required  onChange={this.handleFirstName}/>
+                              <input type="text" defaultValue={this.state.myData.firstName} placeholder="First name" className="form-control" aria-describedby="emailHelp" required  onChange={this.handleFirstName}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" placeholder={this.state.myData.lastName}  className="form-control" aria-describedby="emailHelp" required onChange={this.handleLastName}/>
+                              <input type="text" defaultValue={this.state.myData.lastName} placeholder="Lasat name" className="form-control" aria-describedby="emailHelp" required onChange={this.handleLastName}/>
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
-                              <input type="text" placeholder={this.state.myData.city}  className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required  onChange={this.handleCity}/>
+                              <input type="text" defaultValue={this.state.myData.city} placeholder="City" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required  onChange={this.handleCity}/>
                           </div>
                           <div className="form-group" style={{marginBottom:'6px'}}>
-                              <select className="form-control" placeholder={this.state.myData.gender} required onChange={this.handleGender}>
+                              <select className="form-control" defaultValue={this.state.myData.gender} required onChange={this.handleGender}>
                                   <option name="male">Male</option>
                                   <option name="female">Female</option>
                               </select>
                           </div>
                           <div className="form-group" style={{marginBottom:'6px'}}>
-                              <input type="date"placeholder={this.state.myData.dateOfBirth}  className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} />
+                              <input type="date"defaultValue={this.state.myData.dateOfBirth}  className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} />
                           </div>
                           <div className="form-group"style={{marginBottom:'6px'}}>
                               <input type="password" className="form-control" id="exampleInputPassword1" required placeholder="Password" onChange={this.handlePassword}/>
                           </div>
                           <br></br>
                           <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Confirm</button>
+                          <Link to="/home" className="btn btn-bg-violet mb-4 btn-size-primary pt-2 mt-2" > Cancel</Link>
 
                           <div className="text-left">
-                          <div href="/"> <p className="text-white font-weight-light "><u>Terms and conditions</u></p></div>
+                          <div > <p className="text-white font-weight-light pt-1"><u>Terms and conditions</u></p></div>
                           </div>
                     </div>
                   </div>
