@@ -4,6 +4,9 @@
     height: auto;
     z-index: 2;
 }
+a{
+    text-decoration: none;
+}
 a:hover{
     text-decoration: none;
 }

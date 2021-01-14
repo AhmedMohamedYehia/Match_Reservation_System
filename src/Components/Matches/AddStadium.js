@@ -54,11 +54,10 @@ class AddMAtch extends Component {
           }
           else
           {
+            alert("Please make sure that you chose the right data, stadium name must be unique!")
           }   
         }).catch(err=>{
-          if (err.message=="Request failed with status code 400") {
-            alert("Please make sure that you chose the right data!")
-          }
+          alert("Please make sure that you chose the right data, stadium name must be unique!")
         })
     
   }

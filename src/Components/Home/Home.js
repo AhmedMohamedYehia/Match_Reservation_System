@@ -30,14 +30,12 @@ render() {
                         <h1 className="quote-2-itself">Your next plan ?</h1>
                         <br></br>
                         <h1 className="quote-2-itself">Consider it done !</h1>
-                        {/* <h1 className="quote-speaker">-Paulo Coelho</h1> */}
                     </div>
                 </div>
                 <div className="quote-box quote-box-1 row">
                     <img src={Mapimage} alt="" data-aos={"fade-right"} className="col quote-1-img"></img>
                     <div className="quote-1 col" data-aos={"fade-left"}>
                         <h1 className="quote-1-itself">Supporting experience you never experienced before.</h1>
-                        {/* <h1 className="quote-speaker">-Ibn Batutta</h1> */}
                     </div>
                 </div>
             </div>

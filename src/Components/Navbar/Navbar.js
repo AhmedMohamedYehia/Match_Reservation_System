@@ -17,13 +17,6 @@ class Navbar extends Component {
     const pathName=window.location.pathname.split("/").pop()+"-btn";
     const objectsContainer = document.getElementById("navbar-right");
 
-    // objectsContainer.children[0].children.forEach(element => {
-    //   if(element.classList.contains(pathName))
-    //   {
-    //     element.classList.add("active");
-    //     return;
-    //   }
-    // });
   }
   navbarOnchange=(e)=>{
     try {
@@ -56,9 +49,11 @@ class Navbar extends Component {
   handleAdminSignOut=(e)=>{
     e.preventDefault();
     axios.delete('https://efa-website-cufe.herokuapp.com'+"/admin/signOut",{
-      "userName":localStorage.getItem('userName'),
-      "password":localStorage.getItem('password')
-    },{withCredentials: true, credentials: 'include'}
+      headers: {
+          'authorization': "Bearer "+localStorage.getItem("token"),
+      },
+    },
+    {withCredentials: true, credentials: 'include'}
     )   
     .then(res => {
       console.log(res);
@@ -68,25 +63,20 @@ class Navbar extends Component {
       }
       else
       {
+        // alert("something went wrong please try again!")
       }   
     }).catch(async (err) => {
-    //   const msg=await responseHandler(err);
-    //  if(msg==="token refreshed"){
-    //      console.log("refreshed")
-    //      this.handleSignOut(e);
-    //  }
-    //  else if (msg==="logout"){
-    //      console.log("not refreshed")
-    //  }   
+      // alert("something went wrong please try again!")
     })
-    // window.location.replace("/admin-log-in");
   }
   handleSignOut=(e)=>{
     e.preventDefault();
-    axios.post('https://efa-website-cufe.herokuapp.com'+"/signOut",{
-      "userName":localStorage.getItem('userName'),
-      "password":localStorage.getItem('password')
-    },{withCredentials: true, credentials: 'include'}
+    axios.delete('https://efa-website-cufe.herokuapp.com'+"/signOut",{
+      headers: {
+          'authorization': "Bearer "+localStorage.getItem("token"),
+      },
+    }
+    ,{withCredentials: true, credentials: 'include'}
     )   
     .then(res => {
       console.log(res);
@@ -96,18 +86,11 @@ class Navbar extends Component {
       }
       else
       {
+        // alert("something went wrong please try again!")
       }   
     }).catch(async (err) => {
-    //   const msg=await responseHandler(err);
-    //  if(msg==="token refreshed"){
-    //      console.log("refreshed")
-    //      this.handleSignOut(e);
-    //  }
-    //  else if (msg==="logout"){
-    //      console.log("not refreshed")
-    //  }   
+      // alert("something went wrong please try again!")
     })
-    // window.location.replace("/");
   }
   redirectToMain=(e)=>{
     e.preventDefault();
@@ -125,7 +108,7 @@ class Navbar extends Component {
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn home-btn" to="/home"  onClick={this.redirectToMain}><i type="icon" className="fa fa-fw fa-home pt-1 align-self-center"></i> Home</Link>
                   <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/matches"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Matches</Link>
                   {
-                  this.state.loginType == "customer"?
+                  this.state.loginType == "fan"?
                   <>
                     <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/my-reservations"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Reservations</Link>
                     <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/edit-my-profile"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Edit Profile</Link>
@@ -140,8 +123,8 @@ class Navbar extends Component {
                     :
                       this.state.loginType == "admin"?
                         <>
-                        <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-stadium"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Remove User</Link>
-                          <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/add-stadium"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Pending Users</Link>
+                          <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/admin-delete-user"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Remove User</Link>
+                          <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/admin-approve-users"   onClick={this.navbarOnchange}><i type="icon" className="fas fa-store pt-1 align-self-center"></i>Pending Users</Link>
                           <Link className="d-flex flex-column text-center justify-content-center text-white p-3 user-btn market-btn" to="/" onClick={this.handleAdminSignOut}><i type="icon" className="fa fa-sign-out pt-1 pr-1"></i> Sign Out</Link>
                         </>
                       :

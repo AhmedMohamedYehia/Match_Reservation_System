@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import "./Signup.css"
-// import image from "../../StartupPage/stad.jpg"
 import image from "../../Assets/pitch2.jpg"
 import { Link } from "react-router-dom";
-// import { ConfigContext } from "../../Context/ConfigContext";
-// import Message from "../Message/Message"
 import axios from "axios";
 
-// import {responseHandler,baseURL} from "../../Redux/ResponseHandler"
 class Signup extends Component {
   constructor() {
     super();
@@ -70,10 +66,14 @@ class Signup extends Component {
           }
           else
           {
+            alert("something went wrong, all data fields must be unique please try again!")
           }   
         }).catch(err=>{
           if (err.message=="Request failed with status code 400") {
             alert("Username and Email must be unique!")
+          }
+          else{
+            alert("something went wrong, all data fields must be unique please try again!")
           }
         })
     }
@@ -150,7 +150,7 @@ render() {
                               </select>
                           </div>
                           <div className="form-group">
-                              <input type="date" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
+                              <input type="date" min="1920-01-01" max="2000-01-01" className="form-control" id="exampleInputPassword1" required onChange={this.handleBirthDate} placeholder="Birthdate"/>
                           </div>
                           <br></br>
                           <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Sign up</button>

@@ -60,8 +60,7 @@ const dumMatches = [
     }
 ]
 export default function MyReservations () {
-    const [myMatches,setMyMatches] = useState("");
-    const [loginType,setLoginType] = useState(localStorage.getItem('loginType'));
+    const [myMatches,setMyMatches] = useState([]);
     const [selectedMatch,setSelectedMatch] = useState("");
     const [tickets,setTickets] = useState();
     
@@ -76,49 +75,18 @@ export default function MyReservations () {
     .then(res => {
         if(res.status===200)
         {
-            // setTickets(res.data.ticket)
-            // getAllMatchesDetails(tickets)
             setMyMatches(res.data.ticket)
         }
         else
         {
+            alert("Something went wrong please refresh the page!")
         }   
     }).catch(err=>{
-        if (err.message=="Request failed with status code 400") {
-        }
+        alert("Something went wrong please refresh the page!")
     })
-    // const [loginType,setLoginType] = useState("manager");
-    // function getAllMatchesDetails(matchesID){
-    //     var dummymatches = []
-    //     for (let i = 0; i < matchesID.length; i++) {
-    //         axios.post("https://efa-website-cufe.herokuapp.com/match"
-    //         ,{
-    //             matchId:matchesID[i]
-    //         }
-    //         ,{withCredentials: true}
-    //         )   
-    //         .then(res => {
-    //             if(res.status===200)
-    //             {
-    //                 dummymatches.push(res.data.match)
-    //             }
-    //             else
-    //             {
-    //             }   
-    //         }).catch(err=>{
-    //             if (err.message=="Request failed with status code 400") {
-    //             }
-    //         })
-    //     }
-    //     setMyMatches(dummymatches);
-    //     dummymatches.length = 0;
-    // }
 
     function cancelReservationMAtch(ticketID){
-        axios.delete("https://efa-website-cufe.herokuapp.com/match/reserveTicket"+ticketID,
-        {
-            ticketId:ticketID
-        }
+        axios.delete("https://efa-website-cufe.herokuapp.com/match/reserveTicket/"+ticketID
         ,{
             headers: {
                 'authorization': "Bearer "+localStorage.getItem("token"),
@@ -129,30 +97,28 @@ export default function MyReservations () {
         .then(res => {
             if(res.status===200)
             {
-                alert("your ticket unique number is: "+res.data.ticket._id)
+                alert("Your reservation have been canceled.")
+                window.location.replace("/my-reservations");
             }
             else
             {
+                alert("Something went wrnog please try again.")
             }   
         }).catch(err=>{
-            if (err.message=="Request failed with status code 400") {
-            }
+            alert("Something went wrnog please try again.")
         })
-        // add request to get selected match data
-        // setSelectedMatch(matchID);
-        // window.scrollTo(0, 0)
     }
     return (
         <>
             <Navbar/>
-            <div id="matches-whole" className="matches-container container">
+            <div id="matches-whole" className="matches-container container" style={{height:"100vh"}}>
                 <div className="row matches-chosen-match mb-5 pt-5" style={{display: selectedMatch==""?"none":""}}>
 
                 </div>
                 <h2 className="section-header pt-5" style={{textAlign:"center"}}>My Reserved Matches:</h2>
                 <div className="row matches-matches pt-2">
                     {
-                        myMatches !== ""
+                        myMatches.length !== 0
                         ?
                         
                             myMatches.map((ticket,index)=>(
@@ -161,27 +127,36 @@ export default function MyReservations () {
                                         <div class="card-body container">
                                             <div className="row match-dateOfMatch-time justify-content-center">
                                                 <div className="" >
-                                                    <h1 >
-                                                    {/* {match.dateOfMatch}  */}
-                                                    </h1>
+                                                    <h3>
+                                                        Ticket Unique Number: {ticket._id} 
+                                                    </h3>
                                                 </div>
                                             </div>
                                             <hr></hr>
                                             <div className="row match-teams justify-content-center">
                                                 <div className="col-4">
-                                                    <h1 style={{color:"Black"}}><strong>{ticket.match}</strong></h1>
+                                                    <h1 style={{color:"Black"}}><strong>{ticket.match.homeTeam.name}</strong></h1>
                                                 </div>
                                                 <div className="col-2">
                                                     <strong>VS</strong>
                                                 </div>
                                                 <div className="col-4">
-                                                    <h1 style={{color:"black"}}><strong>{ticket.match}</strong></h1>
+                                                    <h1 style={{color:"black"}}><strong>{ticket.match.awayTeam.name}</strong></h1>
                                                 </div>
                                             </div>
                                             <hr></hr>
                                             <div className="row match-stad justify-content-center">
                                                 <div className="">
-                                                    <h3><strong>{ticket.match}</strong></h3>
+                                                    <h3><strong>{ticket.match.stadium.name}</strong></h3>
+                                                </div>
+                                            </div>
+                                            <hr></hr>
+                                            <div className="row ticket-row justify-content-center">
+                                                <div className="col-4">
+                                                    <h1 style={{color:"Black"}}>Row: {ticket.row}</h1>
+                                                </div>
+                                                <div className="col-4">
+                                                    <h1 style={{color:"black"}}>Seat in row: {ticket.seatInRow}</h1>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +182,7 @@ export default function MyReservations () {
                             ))
                         :
                             <div className="row justify-content-center" style={{textAlign:"center"}}>
-                                <h1 style={{height:"100vh"}}>You donnot have any reserved tickets! </h1>
+                                <h1 style={{height:"100vh"}}>You don't have any reserved tickets! </h1>
                             </div>
                     }
                 </div>

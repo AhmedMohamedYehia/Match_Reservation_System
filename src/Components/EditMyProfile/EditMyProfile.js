@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import "./EditMyProfile.css"
-// import image from "../../StartupPage/stad.jpg"
 import image from "../../Assets/pitch2.jpg"
 import { Link } from "react-router-dom";
-// import { ConfigContext } from "../../Context/ConfigContext";
-// import Message from "../Message/Message"
 import axios from "axios";
 
 class EditMyProfile extends Component {
@@ -28,7 +25,6 @@ class EditMyProfile extends Component {
       confirmPassword:"",
       dateOfBirth: "",
       gender: "",
-      // message:''
     };
     this.handleFirstName=this.handleFirstName.bind(this);
     this.handleLastName=this.handleLastName.bind(this);
@@ -52,10 +48,10 @@ class EditMyProfile extends Component {
         }
         else
         {
+          alert("something went wrong, please try again!")
         }   
     }).catch(err=>{
-        if (err.message=="Request failed with status code 400") {
-        }
+      alert("something went wrong, please try again!")
     })
   }
 
@@ -63,7 +59,7 @@ class EditMyProfile extends Component {
   signup(e){
     e.preventDefault(); 
     if(this.state.password.length<9){
-      alert("Password must be over 8 characters.")
+      alert("Wrong password.")
     }
     else{
         axios.put('https://efa-website-cufe.herokuapp.com'+'/me',
@@ -90,10 +86,14 @@ class EditMyProfile extends Component {
           }
           else
           {
+            alert("something went wrong, please try again!")
           }   
         }).catch(err=>{
           if (err.message=="Request failed with status code 400") {
             alert("Username and Email must be unique!")
+          }
+          else{
+            alert("something went wrong, please try again!")
           }
         })
     }
@@ -122,9 +122,8 @@ class EditMyProfile extends Component {
 render() {
   console.log("date: "+this.state.myData.dateOfBirth)
     return (
-        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-3 pb-3">
+        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
           <div className="container pt-5 mt-4 ">
-              {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
               <form className="container col-lg-6  text-center"  >
                   <div className="text-center container w-90 h-100">
               <div className="container">
@@ -160,9 +159,6 @@ render() {
                           <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Confirm</button>
                           <Link to="/home" className="btn btn-bg-violet mb-4 btn-size-primary pt-2 mt-2" > Cancel</Link>
 
-                          <div className="text-left">
-                          <div > <p className="text-white font-weight-light pt-1"><u>Terms and conditions</u></p></div>
-                          </div>
                     </div>
                   </div>
               </form>

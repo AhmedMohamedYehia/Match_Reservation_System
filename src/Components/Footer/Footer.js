@@ -9,9 +9,6 @@ class Footer extends Component {
 render() {
     return (
         <div>
-        {/* {status==="connected" ||status==="" ?
-            <div/>
-         :    */}
       <div id="footer">
       <div className="row w-100 footer-row"> 
           <Link to="/home" className="logo" onClick={this.redirectToMain}><img src={logo} alt=""/></Link>
@@ -19,20 +16,16 @@ render() {
           <div>
               <h5>Company</h5>
               <div>
-                 {/* <Link to="/home"><h6>About</h6></Link> */}
               </div>
           </div>
           <div>
-              {/* <h5>Communities</h5> */}
               <div>
-              {/* <Link to="/home"> <h6>For Organizers</h6> </Link> */}
               </div>
           </div>
           <div>
               <h5>Useful Links</h5>
               <div>
               <Link to="/home"> <h6>Help</h6> </Link>
-              {/* <Link to="/home"> <h6>Download Mobile App</h6> </Link> */}
               </div>
           </div>
           </div>
@@ -53,7 +46,6 @@ render() {
           <li className="list-inline-item right mb-1"><p className="privacy-link" >©{d.getFullYear()} Tazkarti</p></li>
       </div>
   </div>
-  {/* } */}
   </div>
 
   );

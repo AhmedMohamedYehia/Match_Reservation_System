@@ -1,97 +1,94 @@
-import React ,{ Component }from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import AdminSideBar from './AdminSideBar';
-import axios from 'axios'
-import {Link} from 'react-router-dom';
-import './Profile.css';
+import React, { Component } from "react";
+import "../Matches/EditMatch.css"
+// import image from "../../StartupPage/stad.jpg"
+import image from "../../Assets/pitch2.jpg"
+import { Link } from "react-router-dom";
+// import { ConfigContext } from "../../Context/ConfigContext";
+// import Message from "../Message/Message"
+import axios from "axios";
 
 class DeleteUser extends Component {
-    constructor() {
-        super()
-        this.state = {
-          
-          user:{
-              image:"",
-          },        
-          successMessage: false,
-          failMessagee: false
-        }
+  constructor() {
+    super();
+    this.state = {
+      userName: "", 
+      message:''
+    };
+    this.handleUserName=this.handleUserName.bind(this);
+       
+  }
+  
+  signup(){
+    console.log("state in signup: "+this.state.userName)
+    axios.delete("https://efa-website-cufe.herokuapp.com/users/"+this.state.userName
+    ,{
+        headers: {
+            'authorization': "Bearer "+localStorage.getItem("token"),
+        },
     }
-    
-    changePasswordHandle(currentPassword,newPassword,repeatPassword){
-        /*if(newPassword===repeatPassword)
+    )   
+    .then(res => {
+        if(res.status===200)
         {
-            axios.put(this.context.baseURL+'/me/changePassword',{
-                "newPassword": newPassword,
-                "passwordConfirmation": currentPassword
-            },
-            {
-                headers: {
-                    'authorization': "Bearer "+localStorage.getItem("token"),
-            }
+            alert("This user has been deleted.")
+            window.location.replace("/admin-delete-user");
         }
-        )   
-        .then(res => {
-            if(res.status === 204 || res.status === 200)
-            {
-                this.setState({
-                    successMessage: true,
-                    failMessage: false
-                })
-            }
-        }) 
-        .catch(res => {this.setState({
-            failMessage: true,
-            successMessage: false
-        })})
-        }
-    else{
-        this.setState({
-            successMessage: false,
-            failMessage: true
-        })
-    }*/
-    }
-    cancelHandle(){
-        window.location.reload();
-    }
-    render()
-    {
-        {document.title ="Admin"}
+        else
+        {
+            alert("Something went wrnog, check if the user's name is correct and try again.")
+        }   
+    }).catch(err=>{           
+        alert("Something went wrnog, check if the user's name is correct and try again.")
+    })
+    
+  }
+  handleUserName(e){
+    console.log(e.target.value)
+    this.setState({ userName: e.target.value})
+    console.log("state: "+this.state.userName)
+  }
 
-    return(
-        <div className="bg-dark-clr">
-        <div className="container container-custom ">
-            <div className="row">
-                <AdminSideBar/>
-                <div className="col-lg-9 container-section">
-                    <div className="container-div">
-                        { this.state.successMessage && <div class="alert alert-success">
-                        <p>User Deleted</p>
-                        </div> }
-                        { this.state.failMessage && <div class="alert alert-danger">
-                        <p>Error</p>
-                        </div> }
-                        <h1 className="page-header">Delete User</h1>
-                        <div className="container-info">  
-                            <div className="username">
-                                <label className="labels">User Name</label>
-                                <input type="text" ref="current" className="custom-box"></input>
-                            </div>   
-                           
-                            
-                            <div className="buttons">
-                                <button onClick={()=>{this.deleteUserHandle(this.refs.current.value,this.refs.new.value,this.refs.repeat.value)}}className="btn-sm btn btn-success set-button">DELETE USER</button>
-                                <button onClick={()=>{this.cancelHandle()}}className="btn-sm btn btn-danger set-button">CANCEL</button>
-                            </div>
+render() {
+    return (
+        <div id="edit-my-profile-container" style={{backgroundImage: `url(${image})` }} className="pt-5 pb-3">
+          <div className="container  mt-4 " style={{paddingTop:"10rem"}}>
+              {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
+              <form className="container col-lg-6  text-center"  >
+                  <div className="text-center container w-90 h-100">
+              <div className="container">
+                  <h1 className="mt-5 mb-3" style={{color:"white"}}>Enter account's username to delete.</h1>
+                  </div>
+                    <div className="form-container">      
+
+                    <div className="divider">
+                    </div>                  
+                    <div className="dropdown-divider"></div>
+                    <div className="form-group"style={{marginBottom:'6px'}}>
+                        <input type="text" placeholder="Username" className="form-control" aria-describedby="emailHelp" required  onChange={this.handleUserName}/>
+                    </div>
+                    <br></br>
+                    <Link className="row "><button data-bs-toggle="modal" data-bs-target="#exampleModal"  type="button" className="btn btn-bg-orange text-white btn-size-primary">Delete account</button></Link>
+                    <Link to="/home" className="btn btn-bg-violet mb-4 btn-size-primary pt-2 mt-2" > Cancel</Link>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this account?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" onClick={()=>{this.signup()}} class="btn btn-outline-success">Yes, delete.</button>
+                        </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    </div>
+                    </div>
+                  </div>
+              </form>
+          </div>
         </div>
-        </div>
-    )
-    }
-}
+    );
+}}
 
 export default DeleteUser;

@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import "./Signup.css"
-// import image from "../../StartupPage/stad.jpg"
 import image from "../../Assets/pitch2.jpg"
 import { Link } from "react-router-dom";
-// import { ConfigContext } from "../../Context/ConfigContext";
-// import Message from "../Message/Message"
 import axios from "axios";
-
-// import {responseHandler,baseURL} from "../../Redux/ResponseHandler"
 class ManagerSignup extends Component {
   constructor() {
     super();
@@ -71,10 +66,14 @@ class ManagerSignup extends Component {
           }
           else
           {
+            alert("something went wrong, all data fields must be unique please try again!")
           }   
         }).catch(err=>{
           if (err.message=="Request failed with status code 400") {
             alert("Username and Email must be unique!")
+          }
+          else{
+            alert("something went wrong, all data fields must be unique please try again!")
           }
         })
     }

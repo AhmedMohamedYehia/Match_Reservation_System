@@ -38,11 +38,10 @@ export default class Matches extends Component  {
           }
           else
           {
+            alert("Something went wrong please refresh the page!")
           }   
         }).catch(err=>{
-          if (err.message=="Request failed with status code 400") {
-            alert("Username and Email must be unique!")
-          }
+            alert("Something went wrong please refresh the page!")
         })
     }
     callBackFunct(matchID){
@@ -59,13 +58,11 @@ export default class Matches extends Component  {
             }
             else
             {
+                alert("Something went wrong please refresh the page!")
             }   
         }).catch(err=>{
-            if (err.message=="Request failed with status code 400") {
-                alert("Username and Email must be unique!")
-            }
+            alert("Something went wrong please refresh the page!")
         }).then(e=>{
-            // console.log("seats length inside finally: "+this.state.seats)
             this.preprocessData()
         })
     }
@@ -81,10 +78,10 @@ export default class Matches extends Component  {
             }
             else
             {
+                alert("Something went wrong please refresh the page!")
             }   
         }).catch(err=>{
-            if (err.message=="Request failed with status code 400") {
-            }
+            alert("Something went wrong please refresh the page!")
         }).then(e=>{
             this.preprocessData()
         })
@@ -93,10 +90,8 @@ export default class Matches extends Component  {
         var seatsAvail =[];
         var seatsNotAvail = [];
         var seatsAll = [];
-        // console.log("whole seats length: "+this.state.seatsLength)
         for (let i = 0; i < this.state.seats.length; i++) {
             seatsAll.push(this.state.seats[i])
-            // console.log(this.state.seats[i].owner)
             if (this.state.seats[i].owner == null && i<this.state.seatsLength) {
                 seatsAvail.push(this.state.seats[i])
             }
@@ -105,7 +100,6 @@ export default class Matches extends Component  {
             }
         }
         this.setState({seatAvailable:seatsAvail})
-        // console.log("ticket id: "+ this.state.seatAvailable[0]._id)
         this.setState({seat:seatsAll})
         this.setState({seatReserved:seatsNotAvail})
         
@@ -123,12 +117,9 @@ export default class Matches extends Component  {
         }
         var person = prompt("Please enter your credit card number", "");
         axios.defaults.withCredentials = true
-        // console.log("empty prompt: +"+person)
         if (person != null && person != "") {
             person = prompt("Please enter your bin number", "")
             if (person != null && person != "") {
-                // console.log("_id: "+seat._id)
-                // console.log("token: "+localStorage.getItem("token"))
                 axios.post("https://efa-website-cufe.herokuapp.com/match/reserveTicket",
                 {
                     ticketId:seat._id
@@ -147,23 +138,21 @@ export default class Matches extends Component  {
                     }
                     else
                     {
+                        alert("Something went wrong, maybe someonoe reserved the ticket before you. please refresh the page!")
                     }   
                 }).catch(err=>{
-                    if (err.message=="Request failed with status code 400") {
-                    }
+                    alert("Something went wrong, maybe someonoe reserved the ticket before you. please refresh the page!")
                 })
             }
         }
     }
 
     handleDeleteMatch(matchId){
-        axios.delete('https://efa-website-cufe.herokuapp.com/match',
+        axios.delete('https://efa-website-cufe.herokuapp.com/match/'+matchId,
         {
-            matchId:matchId
-        },{
-        headers: {
-            'authorization': "Bearer "+localStorage.getItem("token"),
-        },
+            headers: {
+                'authorization': "Bearer "+localStorage.getItem("token"),
+            },
         }
         ,{withCredentials: true, credentials: 'include'}
         )   
@@ -171,15 +160,14 @@ export default class Matches extends Component  {
         if(res.status===200)
         {
             alert("The match have been deleted correctly!")
-            // window.location.replace("/matches");
+            window.location.replace("/matches");
         }
         else
         {
+            alert("Something went wrong please refresh the page!")
         }   
         }).catch(err=>{
-        if (err.message=="Request failed with status code 400") {
-            // alert("Please make sure that you chose the right data!")
-        }
+            alert("Something went wrong please refresh the page!")
         })
     }
     
@@ -226,7 +214,7 @@ export default class Matches extends Component  {
                                                 <div className="row match-dateOfMatch-time justify-content-center">
                                                     <div className="" >
                                                         <h1 >
-                                                        {match.dateOfMatch} 
+                                                        {match.dateOfMatch.replace("T",", ")}
                                                         </h1>
                                                     </div>
                                                 </div>
@@ -299,7 +287,7 @@ export default class Matches extends Component  {
                                                         <Link to  className="row justify-content-center mt-2 p-0"><button onClick={() => { this.callBackFunct(match._id) }} type="button" className="btn btn-outline-success btn-lg">See Match Reservation Status</button></Link>
                                                 </div>
                                                 :
-                                                    this.state.loginType == "customer" ?
+                                                    this.state.loginType == "fan" ?
                                                     <div className="card-footer">
                                                         <Link to  className="row justify-content-center"><button onClick={() => { this.callBackFunct(match._id) }} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button></Link>
                                                         {/* <button onClick={reserveMAtch(match.stadium,index)} type="button" className="btn btn-outline-success btn-lg">Reserve Match</button> */}

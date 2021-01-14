@@ -17,7 +17,7 @@ class EditMatch extends Component {
       homeTeam: "" ,
       awayTeam: "",
       stadium: "",
-      dateOfMatch:"",
+      dateOfMatch:new Date(),
       mainReferee: "",
       firstLineman: "",
       secondLineman: "",
@@ -51,7 +51,6 @@ class EditMatch extends Component {
   
   signup(e){
     e.preventDefault(); 
-        console.log("match id: "+this.state.myData._id)
         axios.put('https://efa-website-cufe.herokuapp.com/match',
         {
             homeTeam: this.state.homeTeam ,
@@ -77,16 +76,15 @@ class EditMatch extends Component {
           }
           else
           {
+            alert("Please make sure that you chose the right data!")
           }   
         }).catch(err=>{
-          if (err.message=="Request failed with status code 400") {
-            alert("Please make sure that you chose the right data!")
-          }
+          alert("Please make sure that you chose the right data!")
         })
     
   }
   handleHomeTeam(e){
-    this.setState({ myData: e.target.value });
+    this.setState({ homeTeam: e.target.value });
   }
   handleAwayTeam(e){
     this.setState({ awayTeam: e.target.value });
@@ -147,7 +145,7 @@ render() {
                                     <input type="text" defaultValue={this.state.myData.secondLineman} placeholder="stadiFirst linemanum" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required  onChange={this.handleSecondLineman}/>
                                 </div>
                                 <div className="form-group" style={{marginBottom:'6px'}}>
-                                    <input type="date"defaultValue={this.state.myData.dateOfMatch}  className="form-control" id="exampleInputPassword1" required onChange={this.handleDateOfMatch} />
+                                    <input type="datetime-local"defaultValue={this.state.myData.dateOfMatch}  className="form-control" id="exampleInputPassword1" required onChange={this.handleDateOfMatch} />
                                 </div>
                                 <br></br>
                                 <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Confirm</button>

@@ -36,32 +36,18 @@ class Login extends Component {
           {
             console.log("hereee: "+res.data.token);
             window.location.replace("/home");
-            localStorage.setItem('loginType', "manager");
+            localStorage.setItem('loginType', res.data.role);
             localStorage.setItem('userName', this.state.email);
             localStorage.setItem('password', this.state.password);
             localStorage.setItem('token', res.data.token);
           }
           else
           {
+            alert("Please make sure that you chose the right username and passsword!")
           }   
         }).catch(async (err) => {
-          // const msg=await responseHandler(err);
-          // this.setState({message:msg})
-        
+          alert("Please make sure that you chose the right username and passsword!")
         }) 
-    // axios({
-    //   method:"POST",
-    //   url:'https://efa-website-cufe.herokuapp.com'+'/admin/signIn',
-    //   params:{ userName:this.state.username, password:this.state.password },
-    //   withCredentials: true,
-    //   credentials: 'include',
-    //   // cancelToken: new axios.CancelToken(c =>cancel=c)
-    // }).then(res=>{
-    //   console.log("request: "+res)
-    // }).catch(e=>{
-    //     if(axios.isCancel(e))return
-    //     console.log("Error: "+e)
-    // })
   }
   handleUserNAme(e){
     this.setState({ email: e.target.value })
@@ -80,7 +66,6 @@ render() {
                 <br></br>
                 <br></br>
                 <br></br>
-              {/* <form className="container col-lg-6  text-center"  onSubmit={this.signup}> */}
               <form className="container col-lg-6  text-center"  >
                   <div className="text-center container w-90 h-100">
               <div className="container">

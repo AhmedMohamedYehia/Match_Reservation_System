@@ -60,11 +60,10 @@ class AddMAtch extends Component {
           }
           else
           {
+            alert("Please make sure that you chose the right data!")
           }   
         }).catch(err=>{
-          if (err.message=="Request failed with status code 400") {
             alert("Please make sure that you chose the right data!")
-          }
         })
     
   }
@@ -126,7 +125,7 @@ render() {
                         <input type="text"  placeholder="second linemanum" className="form-control " id="exampleInputcity1" aria-describedby="cityHelp" required  onChange={this.handleSecondLineman}/>
                     </div>
                     <div className="form-group" style={{marginBottom:'6px'}}>
-                        <input type="date"  className="form-control"  id="exampleInputPassword1" required onChange={this.handleDateOfMatch} />
+                        <input type="datetime-local"  className="form-control"  id="exampleInputPassword1" required onChange={this.handleDateOfMatch} />
                     </div>
                     <br></br>
                     <button type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={this.signup} className="btn btn-bg-orange text-white btn-size-primary"  >Confirm</button>
